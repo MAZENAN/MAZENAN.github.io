@@ -7,15 +7,15 @@
   
   <title>不二优选接口 | fanoo的笔记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="商品详情接口 E:\博客\notes\source\_posts 新增is_presell  是否为预售商品 新增presell_send_time  发货时间两个字段">
+  <meta name="description" content="商品详情接口 E:\博客\notes\source\_posts12341.新增&#96;is_presell&#96;  是否为预售商品  2.新增&#96;presell_send_time&#96;  发货时间两个字段  3.新增 &#96;is_cash_pay&#96; 是否支持现金抵扣  4.新增&#96;cash_max&#96; 该产品最多抵扣钱数（暂未使用）   订单创建接口变更">
 <meta property="og:type" content="article">
 <meta property="og:title" content="不二优选接口">
 <meta property="og:url" content="http://yoursite.com/2020/07/10/buer-api/index.html">
 <meta property="og:site_name" content="fanoo的笔记">
-<meta property="og:description" content="商品详情接口 E:\博客\notes\source\_posts 新增is_presell  是否为预售商品 新增presell_send_time  发货时间两个字段">
+<meta property="og:description" content="商品详情接口 E:\博客\notes\source\_posts12341.新增&#96;is_presell&#96;  是否为预售商品  2.新增&#96;presell_send_time&#96;  发货时间两个字段  3.新增 &#96;is_cash_pay&#96; 是否支持现金抵扣  4.新增&#96;cash_max&#96; 该产品最多抵扣钱数（暂未使用）   订单创建接口变更">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-10T08:45:12.000Z">
-<meta property="article:modified_time" content="2020-07-10T08:47:56.128Z">
+<meta property="article:modified_time" content="2020-07-17T10:01:32.576Z">
 <meta property="article:author" content="fanoo">
 <meta name="twitter:card" content="summary">
   
@@ -88,10 +88,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="商品详情接口-E-博客-notes-source-posts"><a href="#商品详情接口-E-博客-notes-source-posts" class="headerlink" title="商品详情接口 E:\博客\notes\source\_posts"></a>商品详情接口 <code>E:\博客\notes\source\_posts</code></h2><ol>
-<li>新增<code>is_presell</code>  是否为预售商品</li>
-<li>新增<code>presell_send_time</code>  发货时间两个字段</li>
+        <h2 id="商品详情接口-E-博客-notes-source-posts"><a href="#商品详情接口-E-博客-notes-source-posts" class="headerlink" title="商品详情接口 E:\博客\notes\source\_posts"></a>商品详情接口 <code>E:\博客\notes\source\_posts</code></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.新增&#96;is_presell&#96;  是否为预售商品  </span><br><span class="line">2.新增&#96;presell_send_time&#96;  发货时间两个字段  </span><br><span class="line">3.新增 &#96;is_cash_pay&#96; 是否支持现金抵扣  </span><br><span class="line">4.新增&#96;cash_max&#96; 该产品最多抵扣钱数（暂未使用）</span><br></pre></td></tr></table></figure>
+
+
+<p>订单创建接口变更 app.php?c=Order&amp;a=order</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">新增cash_deduct参数 输入的抵扣金额</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="app自动升级"><a href="#app自动升级" class="headerlink" title="app自动升级"></a>app自动升级</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. 后台升级版本号即可  </span><br><span class="line">2. app包放到服务器，给出url</span><br></pre></td></tr></table></figure>
+
+<h2 id="商品抵扣信息"><a href="#商品抵扣信息" class="headerlink" title="商品抵扣信息"></a>商品抵扣信息</h2><h2 id="充值的问题"><a href="#充值的问题" class="headerlink" title="充值的问题"></a>充值的问题</h2><h2 id="拆单带来的问题"><a href="#拆单带来的问题" class="headerlink" title="拆单带来的问题"></a>拆单带来的问题</h2><ol>
+<li>余额变动不准确</li>
+<li></li>
 </ol>
+<p>#表结构</p>
+<h2 id="1-商品表-dmooo-goods"><a href="#1-商品表-dmooo-goods" class="headerlink" title="1.商品表 dmooo_goods"></a>1.商品表 dmooo_goods</h2><p>新增字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. is_cash_pay tinyint unsigned not null default 0 comment &quot;是否支付现金支付0否1是&quot;</span><br><span class="line">2. cash_max int int unsigned not null default 0 comment &quot;现金支付最多抵扣数单位分&quot;</span><br></pre></td></tr></table></figure>
+
+<p>2.订单表</p>
+<p>新增字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1.  cash_deduct 现金抵扣 int unsigned not null default 0 comment &#39;现金抵扣数 单位分&#39;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -104,6 +122,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2020/07/21/Android-%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android 问题记录与解决方法
+        
+      </div>
+    </a>
   
   
     <a href="/2020/07/08/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
@@ -143,6 +170,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/07/21/Android-%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">Android 问题记录与解决方法</a>
+          </li>
         
           <li>
             <a href="/2020/07/10/buer-api/">不二优选接口</a>
