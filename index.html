@@ -64,6 +64,48 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-操作系统" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="article-date">
+  <time datetime="2020-08-27T02:14:33.623Z" itemprop="datePublished">2020-08-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="什么是CPU密集型、IO密集型？"><a href="#什么是CPU密集型、IO密集型？" class="headerlink" title="什么是CPU密集型、IO密集型？"></a>什么是CPU密集型、IO密集型？</h1><h2 id="1-CPU密集型（CPU-bound）"><a href="#1-CPU密集型（CPU-bound）" class="headerlink" title="1. CPU密集型（CPU-bound）"></a>1. CPU密集型（CPU-bound）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CPU密集型也叫计算密集型，指的是系统的硬盘、内存性能相对CPU要好很多，此时，系统运作大部分的状况是CPU Loading 100%，CPU要读&#x2F;写I&#x2F;O(硬盘&#x2F;内存)，I&#x2F;O在很短的时间就可以完成，而CPU还有许多运算要处理，CPU Loading很高。</span><br><span class="line"></span><br><span class="line">在多重程序系统中，大部份时间用来做计算、逻辑判断等CPU动作的程序称之CPU bound。例如一个计算圆周率至小数点一千位以下的程序，在执行的过程当中绝大部份时间用在三角函数和开根号的计算，便是属于CPU bound的程序。</span><br><span class="line"></span><br><span class="line">CPU bound的程序一般而言CPU占用率相当高。这可能是因为任务本身不太需要访问I&#x2F;O设备，也可能是因为程序是多线程实现因此屏蔽掉了等待I&#x2F;O的时间。</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-IO密集型（I-O-bound）"><a href="#2-IO密集型（I-O-bound）" class="headerlink" title="2.IO密集型（I/O bound）"></a>2.IO密集型（I/O bound）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IO密集型指的是系统的CPU性能相对硬盘、内存要好很多，此时，系统运作，大部分的状况是CPU在等I&#x2F;O (硬盘&#x2F;内存) 的读&#x2F;写操作，此时CPU Loading并不高。</span><br><span class="line"></span><br><span class="line">I&#x2F;O bound的程序一般在达到性能极限时，CPU占用率仍然较低。这可能是因为任务本身需要大量I&#x2F;O操作，而pipeline做得不是很好，没有充分利用处理器能力。</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-CPU密集型-vs-IO密集型"><a href="#3-CPU密集型-vs-IO密集型" class="headerlink" title="3.CPU密集型 vs IO密集型"></a>3.CPU密集型 vs IO密集型</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">我们可以把任务分为计算密集型和IO密集型。</span><br><span class="line"></span><br><span class="line">计算密集型任务的特点是要进行大量的计算，消耗CPU资源，比如计算圆周率、对视频进行高清解码等等，全靠CPU的运算能力。这种计算密集型任务虽然也可以用多任务完成，但是任务越多，花在任务切换的时间就越多，CPU执行任务的效率就越低，所以，要最高效地利用CPU，计算密集型任务同时进行的数量应当等于CPU的核心数。</span><br><span class="line"></span><br><span class="line">计算密集型任务由于主要消耗CPU资源，因此，代码运行效率至关重要。Python这样的脚本语言运行效率很低，完全不适合计算密集型任务。对于计算密集型任务，最好用C语言编写。</span><br><span class="line"></span><br><span class="line">第二种任务的类型是IO密集型，涉及到网络、磁盘IO的任务都是IO密集型任务，这类任务的特点是CPU消耗很少，任务的大部分时间都在等待IO操作完成（因为IO的速度远远低于CPU和内存的速度）。对于IO密集型任务，任务越多，CPU效率越高，但也有一个限度。常见的大部分任务都是IO密集型任务，比如Web应用。</span><br><span class="line"></span><br><span class="line">IO密集型任务执行期间，99%的时间都花在IO上，花在CPU上的时间很少，因此，用运行速度极快的C语言替换用Python这样运行速度极低的脚本语言，完全无法提升运行效率。对于IO密集型任务，最合适的语言就是开发效率最高（代码量最少）的语言，脚本语言是首选，C语言最差。</span><br><span class="line"></span><br><span class="line">总之，计算密集型程序适合C语言多线程，I&#x2F;O密集型适合脚本语言开发的多线程。</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/08/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" data-id="ckec6hols00000cuzgm6z95ts" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Android-问题记录与解决方法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/07/21/Android-%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="article-date">
@@ -86,7 +128,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="webview相关"><a href="#webview相关" class="headerlink" title="webview相关"></a>webview相关</h1><h2 id="一、网页打不开"><a href="#一、网页打不开" class="headerlink" title="一、网页打不开"></a>一、网页打不开</h2><h3 id="1-ERR-CLEARTEXT-NOT-PERMITTED"><a href="#1-ERR-CLEARTEXT-NOT-PERMITTED" class="headerlink" title="1.ERR_CLEARTEXT_NOT_PERMITTED"></a>1.ERR_CLEARTEXT_NOT_PERMITTED</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">原因：android 9 安全策略默认只支持https</span><br><span class="line">解决方法: 在配置文件的application节点添加  android:usesCleartextTraffic&#x3D;&quot;true&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-COOKIE-问题"><a href="#2-COOKIE-问题" class="headerlink" title="2. COOKIE 问题"></a>2. COOKIE 问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-白屏问题"><a href="#3-白屏问题" class="headerlink" title="3.白屏问题"></a>3.白屏问题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="启动页适配"><a href="#启动页适配" class="headerlink" title="# 启动页适配"></a># 启动页适配</h3><h2 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h2><h2 id="隐藏虚拟键盘"><a href="#隐藏虚拟键盘" class="headerlink" title="隐藏虚拟键盘"></a>隐藏虚拟键盘</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  &lt;style name&#x3D;&quot;SplashTheme&quot; parent&#x3D;&quot;Theme.AppCompat.Light.NoActionBar&quot;&gt;</span><br><span class="line">        &lt;item name&#x3D;&quot;android:navigationBarColor&quot;&gt;@android:color&#x2F;transparent&lt;&#x2F;item&gt;</span><br><span class="line">        &lt;item name&#x3D;&quot;android:statusBarColor&quot;&gt;@android:color&#x2F;transparent&lt;&#x2F;item&gt;</span><br><span class="line">        &lt;item name&#x3D;&quot;android:colorBackgroundCacheHint&quot;&gt;@null&lt;&#x2F;item&gt;</span><br><span class="line">        &lt;item name&#x3D;&quot;android:windowIsTranslucent&quot;&gt;true&lt;&#x2F;item&gt;</span><br><span class="line">&lt;!--        &lt;item name&#x3D;&quot;android:windowTranslucentNavigation&quot;&gt;true&lt;&#x2F;item&gt;--&gt;</span><br><span class="line">&lt;!--        &lt;item name&#x3D;&quot;android:windowTranslucentStatus&quot;&gt;true&lt;&#x2F;item&gt;--&gt;</span><br><span class="line">        &lt;item name&#x3D;&quot;android:windowFullscreen&quot;&gt;true&lt;&#x2F;item&gt;</span><br><span class="line">        &lt;item name&#x3D;&quot;android:windowBackground&quot;&gt;@drawable&#x2F;splash_bg&lt;&#x2F;item&gt;</span><br><span class="line">    &lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+
       
     </div>
     <footer class="article-footer">
@@ -225,7 +277,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li></ul>
     </div>
   </div>
 
@@ -236,6 +288,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/08/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+          </li>
         
           <li>
             <a href="/2020/07/21/Android-%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">Android 问题记录与解决方法</a>
